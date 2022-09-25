@@ -8,7 +8,7 @@ const additem = (()=> {
         this.doneyet = doneyet;
     }
 
-    function create(title,description,duedate,priority,donyet=false){
+    function create(title,description="",duedate="None",priority,donyet=false){
         makeitems.append(item(title,description,duedate,priority,donyet));
         makeitems.generate();
     }
@@ -70,6 +70,7 @@ const initialise = (()=> {
     function start(){
         document.getElementById("openbutton").addEventListener("click",todoform.open);
         document.getElementById("popup1").addEventListener("click",todoform.close);
+        document.getElementById("cbutton").addEventListener("click",todoform.close);
     }
 
     return {start};

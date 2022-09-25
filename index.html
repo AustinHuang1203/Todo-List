@@ -27,11 +27,42 @@
     </div>
 
 
+
     <div class="popup1" id="popup1">
       
     </div>
-    <form class="form1" id="form1">
-      <div class="cancelbutton"><button class="cbutton">X</button></div>
+
+    <form class="form1" id="form1" onsubmit="return false;">
+      <div class="cancelbutton"><button type="button" class="cbutton" id="cbutton">X</button></div>
+
+      <div class="field1">
+        <label for="title1">Title*</label>
+        <input type="text" id="title1" class="title1" required>
+      </div>
+
+      <div class="field2">
+        <label for="desc1">Description</label>
+        <input type="text" id="desc1" class="desc1">
+      </div>
+
+      <div class="field1">
+        <label for="date1">Due Date</label>
+        <input type="date" id="date1" class="date1">
+      </div>
+
+      <div class="field2">
+        <label for="prio1">Low priority</label>
+        <input type="radio" id="prio1" name="prio1" class="radio1" value="Low priority" checked>
+        <label for="prio1">Medium priority</label>
+        <input type="radio" id="prio2" name="prio1" class="radio1" value="Medium priority">
+        <label for="prio1">High priority</label>
+        <input type="radio" id="prio3" name="prio1" class="radio1" value="High priority">
+      </div>
+
+      <div class="field1">
+        <button id="addtodo1" class="addtodo11">Add To Do!</button>
+      </div>
+
 
     </form>
     
