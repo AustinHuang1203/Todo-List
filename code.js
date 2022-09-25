@@ -8,8 +8,9 @@ const additem = (()=> {
         this.doneyet = doneyet;
     }
 
-    function create(title,description="",duedate="None",priority,donyet=false){
-        makeitems.append(item(title,description,duedate,priority,donyet));
+    function create(title,description="",duedate="None",priority,doneyet=false){
+        let task = new item(title,description,duedate,priority,doneyet);
+        makeitems.append(task);
         makeitems.generate();
     }
 
@@ -25,7 +26,7 @@ const makeitems = (()=>{
 
     function generate(){
         for (let i = 0; i<itemlist.length; i++){
-
+            console.log(itemlist[i].title);
         }
     }
 
