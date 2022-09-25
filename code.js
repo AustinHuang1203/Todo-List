@@ -60,7 +60,28 @@ const todoform = (()=> {
         document.getElementById("popup1").style.visibility = "hidden";
     }
 
-    return{open,close};
+    function submit(){
+        if(document.getElementById("title1").value == ""){
+            return;
+        }
+
+
+        let radio = document.getElementsByName("prio1");
+        let radio1 = "Low priority";
+        for (let i=0;i<radio.length;i++){
+            if(radio[i].checked){
+                radio1 = radio[i];
+                break;
+            }
+        }
+        console.log(document.getElementById("date1").value);
+
+        additem.create(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1);
+
+
+    }
+
+    return{open,close,submit};
 
 })();
 
@@ -71,6 +92,7 @@ const initialise = (()=> {
         document.getElementById("openbutton").addEventListener("click",todoform.open);
         document.getElementById("popup1").addEventListener("click",todoform.close);
         document.getElementById("cbutton").addEventListener("click",todoform.close);
+        document.getElementById("addtodo1").addEventListener("click",todoform.submit);
     }
 
     return {start};
