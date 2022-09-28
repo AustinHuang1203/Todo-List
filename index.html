@@ -16,12 +16,24 @@
 
     <div class="contents1">
       <div class="sidebar1">
-        
+        <form onsubmit="return false;">
+          <input type="text" class="projname1" id="projname1" required>
+          <button class="projbut" id="projbut">Add Project</button>  
+        </form>
       </div>
+
       <div class="items1">
         <div class="openform"><button id="openbutton" class="openbutton">Add to do</button></div>
 
-        <div class="container1" id="container1"></div>
+        <div class="container1" id="container1">
+          <div class="container2">
+            <div class="info2"> Title:</div>
+            <div class="info2">Due Date:</div> 
+            <div class="info2 hidden1"> Description:</div>
+            <div class="info2 hidden1">Priority:</div>
+            <div class="info2 hidden1">Done yet:</div>
+          </div>
+        </div>
 
       </div>
     </div>

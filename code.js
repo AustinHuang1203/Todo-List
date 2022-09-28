@@ -25,8 +25,15 @@ const makeitems = (()=>{
     }
 
     function generate(){
+        document.getElementById("container1").innerHTML = "";
         for (let i = 0; i<itemlist.length; i++){
-            console.log(itemlist[i].title);
+            document.getElementById("container1").innerHTML += `<div class="container2">
+            <div class="info2"> Title: ${itemlist[i].title}</div>
+            <div class="info2">Due Date: ${itemlist[i].duedate}</div> 
+            <div class="info2 hidden1"> Description: ${itemlist[i].description}</div>
+            <div class="info2 hidden1">Priority: ${itemlist[i].priority}</div>
+            <div class="info2 hidden1">Done yet: ${itemlist[i].doneyet}</div>
+          </div>`;
         }
     }
 
@@ -36,13 +43,20 @@ const makeitems = (()=>{
 
 const addproj =(()=> {
 
-    function proj(title){
+    let projlist=[]
+
+    function proj1(title){
         this.title = title;
         this.contents = [];
     }
 
-    function create(title){
-        proj(title);
+    function create(){
+        if(document.getElementById("projname1").value == ""){
+            return;
+        }
+
+        let proj = new proj1(document.getElementById("projname1").value);
+        projlist.push(proj);
     }
 
     return {create};
@@ -71,11 +85,10 @@ const todoform = (()=> {
         let radio1 = "Low priority";
         for (let i=0;i<radio.length;i++){
             if(radio[i].checked){
-                radio1 = radio[i];
+                radio1 = radio[i].value;
                 break;
             }
         }
-        console.log(document.getElementById("date1").value);
 
         additem.create(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1);
 
@@ -94,6 +107,7 @@ const initialise = (()=> {
         document.getElementById("popup1").addEventListener("click",todoform.close);
         document.getElementById("cbutton").addEventListener("click",todoform.close);
         document.getElementById("addtodo1").addEventListener("click",todoform.submit);
+        document.getElementById("projbut").addEventListener("click",addproj.create);
     }
 
     return {start};
