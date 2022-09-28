@@ -20,8 +20,9 @@ const additem = (()=> {
 const edititem = (()=>{
 
     function edit(x){
+        todoform.open();
+        document.getElementById("addtodo1").removeEventListener;
         document.getElementById("addtodo1").addEventListener("click",()=>submit(x));
-        todoform.open;
     }
 
     function submit(){
@@ -29,7 +30,6 @@ const edititem = (()=>{
         if(document.getElementById("title1").value == ""){
             return;
         }
-
         todoform.close();
 
 
@@ -69,11 +69,16 @@ const makeitems = (()=>{
             <div class="info2 hidden1">Priority: ${itemlist[i].priority}</div>
             <div class="info2 hidden1">Done yet: ${itemlist[i].doneyet}</div>
             <button class="deltask" id="deltask${i}">Delete Task</button>
+            <button class="edittask" id="edittask${i}">Edit Task</button>
           </div>`;
         }
         let deltasklist = document.getElementsByClassName("deltask");
         for (let i = 0; i<deltasklist.length;i++){
             deltasklist[i].addEventListener("click",()=>delete1(i));
+        }
+        let edittasklist = document.getElementsByClassName("edittask");
+        for (let i = 0; i<edittasklist.length;i++){
+            edittasklist[i].addEventListener("click",()=>edititem.edit(i));
         }
     }
 
