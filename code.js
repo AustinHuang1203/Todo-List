@@ -1,6 +1,6 @@
 const additem = (()=> {
 
-    function item(title,description,duedate,priority,doneyet=false){
+    function item(title,description,duedate,priority,doneyet="No"){
         this.title = title;
         this.description = description;
         this.duedate = duedate;
@@ -8,7 +8,7 @@ const additem = (()=> {
         this.doneyet = doneyet;
     }
 
-    function create(title,description="",duedate="None",priority,doneyet=false){
+    function create(title,description="",duedate="None",priority,doneyet="No"){
         let task = new item(title,description,duedate,priority,doneyet);
         makeitems.append(task);
         makeitems.generate();
@@ -33,8 +33,18 @@ const makeitems = (()=>{
             <div class="info2 hidden1"> Description: ${itemlist[i].description}</div>
             <div class="info2 hidden1">Priority: ${itemlist[i].priority}</div>
             <div class="info2 hidden1">Done yet: ${itemlist[i].doneyet}</div>
+            <button class="deltask" id="deltask${i}">Delete Task</button>
           </div>`;
         }
+        let deltasklist = document.getElementsByClassName("deltask");
+        for (let i = 0; i<deltasklist.length;i++){
+            deltasklist[i].addEventListener("click",()=>delete1(i));
+        }
+    }
+
+    function delete1(x){
+        itemlist.splice(x,1);
+        generate();
     }
 
     return {generate, append};
@@ -50,6 +60,15 @@ const addproj =(()=> {
         this.contents = [];
     }
 
+    function generate(){
+        document.getElementById("sidecontents2").innerHTML = "";
+        for(let i = 0;i<projlist.length;i++){
+            document.getElementById("sidecontents2").innerHTML += `<div class="projbar">
+            ${projlist[i].title}
+          </div>`
+        }
+    }
+
     function create(){
         if(document.getElementById("projname1").value == ""){
             return;
@@ -57,6 +76,7 @@ const addproj =(()=> {
 
         let proj = new proj1(document.getElementById("projname1").value);
         projlist.push(proj);
+        generate();
     }
 
     return {create};
@@ -76,6 +96,8 @@ const todoform = (()=> {
     }
 
     function submit(){
+        todoform.close();
+
         if(document.getElementById("title1").value == ""){
             return;
         }
