@@ -14,7 +14,42 @@ const additem = (()=> {
         makeitems.generate();
     }
 
-    return {create};
+    return {create, item};
+})();
+
+const edititem = (()=>{
+
+    function edit(x){
+        document.getElementById("addtodo1").addEventListener("click",()=>submit(x));
+        todoform.open;
+    }
+
+    function submit(){
+
+        if(document.getElementById("title1").value == ""){
+            return;
+        }
+
+        todoform.close();
+
+
+        let radio = document.getElementsByName("prio1");
+        let radio1 = "Low priority";
+        for (let i=0;i<radio.length;i++){
+            if(radio[i].checked){
+                radio1 = radio[i].value;
+                break;
+            }
+        }
+
+        makeitems.itemlist[x] = new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1);
+        
+
+
+    }
+
+    return {edit};
+
 })();
 
 const makeitems = (()=>{
@@ -47,7 +82,7 @@ const makeitems = (()=>{
         generate();
     }
 
-    return {generate, append};
+    return {generate, append, itemlist};
 
 })();
 
@@ -86,6 +121,10 @@ const addproj =(()=> {
 const todoform = (()=> {
 
     function open(){
+        document.getElementById("title1").value = "";
+        document.getElementById("desc1").value = "";
+        document.getElementById("date1").value = "";
+        document.getElementById("prio1").checked = true;
         document.getElementById("form1").style.visibility = "visible";
         document.getElementById("popup1").style.visibility = "visible";
     }
@@ -93,14 +132,16 @@ const todoform = (()=> {
     function close(){
         document.getElementById("form1").style.visibility = "hidden";
         document.getElementById("popup1").style.visibility = "hidden";
+        document.getElementById("addtodo1").addEventListener("click",todoform.submit);
     }
 
     function submit(){
-        todoform.close();
 
         if(document.getElementById("title1").value == ""){
             return;
         }
+
+        todoform.close();
 
 
         let radio = document.getElementsByName("prio1");
@@ -113,6 +154,7 @@ const todoform = (()=> {
         }
 
         additem.create(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1);
+        
 
 
     }
