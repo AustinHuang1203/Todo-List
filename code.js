@@ -70,11 +70,14 @@ const makeitems = (()=>{
             document.getElementById("container1").innerHTML += `<div class="container2">
             <div class="info2"> Title: ${itemlist[i].title}</div>
             <div class="info2">Due Date: ${itemlist[i].duedate}</div> 
-            <div class="info2 hidden1"> Description: ${itemlist[i].description}</div>
-            <div class="info2 hidden1">Priority: ${itemlist[i].priority}</div>
-            <div class="info2 hidden1">Done yet: ${itemlist[i].doneyet}</div>
+            <div class="hidden1" id="hidden${i}">
+            <div class="info2"> Description: ${itemlist[i].description}</div>
+            <div class="info2">Priority: ${itemlist[i].priority}</div>
+            <div class="info2">Done yet: ${itemlist[i].doneyet}</div>
             <button class="deltask" id="deltask${i}">Delete Task</button>
             <button class="edittask" id="edittask${i}">Edit Task</button>
+            </div>
+            <button class="dropdown" id="dropdown${i}">Expand</button>
           </div>`;
         }
         let deltasklist = document.getElementsByClassName("deltask");
@@ -85,11 +88,23 @@ const makeitems = (()=>{
         for (let i = 0; i<edittasklist.length;i++){
             edittasklist[i].addEventListener("click",()=>edititem.edit(i));
         }
+        let dropdown = document.getElementsByClassName("dropdown");
+        for (let i = 0; i<dropdown.length;i++){
+            dropdown[i].addEventListener("click",()=>dropdown1(i));
+        }
     }
 
     function delete1(x){
         itemlist.splice(x,1);
         generate();
+    }
+
+    function dropdown1 (x){
+        if ( document.getElementById(`hidden${x}`).className == "hidden1"){
+        document.getElementById(`hidden${x}`).className = "visible1";}
+        else {
+            document.getElementById(`hidden${x}`).className = "hidden1";
+        }
     }
 
     return {generate, append, modify};

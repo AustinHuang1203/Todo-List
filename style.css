@@ -127,12 +127,15 @@ body{
     overflow:scroll;
 }
 
-.hidden2{
-    height:0px;
-    padding:0px;
-    margin:0px;
+.hidden1{
+    display:none;
 }
 
+.visible1{
+    display:flex;
+    flex-wrap:wrap;
+    width:100%;
+}
 
 /* pop up form */
 .popup1{
