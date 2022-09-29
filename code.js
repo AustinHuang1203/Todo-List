@@ -54,7 +54,16 @@ const edititem = (()=>{
                 break;
             }
         }
-        makeitems.modify(edititem,new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1)); 
+
+        let doneyet2 = "Done!"
+        if(document.getElementById("doneyet1").checked){
+            doneyet2 = "Done!";
+        }
+        else{
+            doneyet2 ="Not Done :("
+        }
+
+        makeitems.modify(edititem,new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1,doneyet2)); 
         
 
 
@@ -76,16 +85,27 @@ const makeitems = (()=>{
         itemlist.push(item);
     }
 
+    // for projects to reassign item list
+    let itemlistgenerate = itemlist;
+    function reassign1(x){
+        itemlistgenerate = x;
+    }
+
+    function reassign2(){
+        itemlistgenerate = itemlist;
+        generate();
+    }
+
     function generate(){
         document.getElementById("container1").innerHTML = "";
-        for (let i = 0; i<itemlist.length; i++){
+        for (let i = 0; i<itemlistgenerate.length; i++){
             document.getElementById("container1").innerHTML += `<div class="container2">
-            <div class="info2"> Title: ${itemlist[i].title}</div>
-            <div class="info2">Due Date: ${itemlist[i].duedate}</div> 
+            <div class="info2"> Title: ${itemlistgenerate[i].title}</div>
+            <div class="info2">Due Date: ${itemlistgenerate[i].duedate}</div> 
             <div class="hidden1" id="hidden${i}">
-            <div class="info2"> Description: ${itemlist[i].description}</div>
-            <div class="info2">Priority: ${itemlist[i].priority}</div>
-            <div class="info2">Done yet: ${itemlist[i].doneyet}</div>
+            <div class="info2"> Description: ${itemlistgenerate[i].description}</div>
+            <div class="info2">Priority: ${itemlistgenerate[i].priority}</div>
+            <div class="info2">Done yet: ${itemlistgenerate[i].doneyet}</div>
             <button class="deltask" id="deltask${i}">Delete Task</button>
             <button class="edittask" id="edittask${i}">Edit Task</button>
             </div>
@@ -119,7 +139,7 @@ const makeitems = (()=>{
         }
     }
 
-    return {generate, append, modify, itemlist};
+    return {generate, append, modify, itemlist, reassign1, reassign2};
 
 })();
 
@@ -135,10 +155,14 @@ const addproj =(()=> {
     function generate(){
         document.getElementById("sidecontents2").innerHTML = "";
         for(let i = 0;i<projlist.length;i++){
-            document.getElementById("sidecontents2").innerHTML += `<div class="projbar">
+            document.getElementById("sidecontents2").innerHTML += `<div class="projbar" id="projbar${i}">
             ${projlist[i].title}
           </div>`
         }
+        for (let i = 0; i<projlist.length;i++){
+            document.getElementById(`projbar${i}`).addEventListener("click",()=>makeproj(i));
+        }
+
     }
 
     function create(){
@@ -149,6 +173,12 @@ const addproj =(()=> {
         let proj = new proj1(document.getElementById("projname1").value);
         projlist.push(proj);
         generate();
+    }
+
+    function makeproj(x){
+        makeitems.reassign1(projlist[x].contents);
+        makeitems.generate();
+
     }
 
     return {create};
@@ -200,7 +230,15 @@ const todoform = (()=> {
             }
         }
 
-        additem.create(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1);
+        let doneyet2 = "Done!"
+        if(document.getElementById("doneyet1").checked){
+            doneyet2 = "Done!";
+        }
+        else{
+            doneyet2 ="Not Done :("
+        }
+
+        additem.create(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1,doneyet2);
         
 
 
@@ -219,6 +257,7 @@ const initialise = (()=> {
         document.getElementById("cbutton").addEventListener("click",todoform.close);
         document.getElementById("addtodo1").addEventListener("click",todoform.submit);
         document.getElementById("projbut").addEventListener("click",addproj.create);
+        document.getElementById("homeprojbar").addEventListener("click",makeitems.reassign2);
     }
 
     return {start};
