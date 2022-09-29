@@ -23,6 +23,18 @@ const edititem = (()=>{
 
     function edit(x){
         todoform.open();
+        document.getElementById("title1").value = makeitems.itemlist[x].title;
+        document.getElementById("desc1").value = makeitems.itemlist[x].description;
+        document.getElementById("date1").value = makeitems.itemlist[x].duedate;
+
+        if (makeitems.itemlist[x].priority == "Low priority"){
+            document.getElementById("prio1").checked = true;
+        } else if(makeitems.itemlist[x].priority == "Medium priority"){
+            document.getElementById("prio2").checked = true;
+        } else{
+            document.getElementById("prio3").checked = true;
+        }
+
         todoform.addsubmittype();
         edititem = x;
     }
@@ -107,7 +119,7 @@ const makeitems = (()=>{
         }
     }
 
-    return {generate, append, modify};
+    return {generate, append, modify, itemlist};
 
 })();
 
