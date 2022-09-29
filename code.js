@@ -19,14 +19,15 @@ const additem = (()=> {
 
 const edititem = (()=>{
 
+    let edititem = 0;
+
     function edit(x){
         todoform.open();
-        document.getElementById("addtodo1").removeEventListener;
-        document.getElementById("addtodo1").addEventListener("click",()=>submit(x));
+        todoform.addsubmittype();
+        edititem = x;
     }
 
-    function submit(){
-
+    function submit1(){
         if(document.getElementById("title1").value == ""){
             return;
         }
@@ -41,19 +42,23 @@ const edititem = (()=>{
                 break;
             }
         }
-
-        makeitems.itemlist[x] = new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1);
+        makeitems.modify(edititem,new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1)); 
         
 
 
     }
 
-    return {edit};
+    return {edit, submit1};
 
 })();
 
 const makeitems = (()=>{
     let itemlist = [];
+
+    function modify(x,y){
+        itemlist.splice(x,1,y);
+        generate();
+    }
 
     function append(item){
         itemlist.push(item);
@@ -87,7 +92,7 @@ const makeitems = (()=>{
         generate();
     }
 
-    return {generate, append, itemlist};
+    return {generate, append, modify};
 
 })();
 
@@ -137,10 +142,20 @@ const todoform = (()=> {
     function close(){
         document.getElementById("form1").style.visibility = "hidden";
         document.getElementById("popup1").style.visibility = "hidden";
-        document.getElementById("addtodo1").addEventListener("click",todoform.submit);
+    }
+
+    let submittype = 0;
+
+    function addsubmittype(){
+        submittype =1;
     }
 
     function submit(){
+        if (submittype ==1){
+            edititem.submit1();
+            submittype = 0;
+            return;
+        } 
 
         if(document.getElementById("title1").value == ""){
             return;
@@ -164,7 +179,7 @@ const todoform = (()=> {
 
     }
 
-    return{open,close,submit};
+    return{open,close,submit,addsubmittype};
 
 })();
 
