@@ -8,24 +8,42 @@ const additem = (()=> {
         this.doneyet = doneyet;
     }
 
+    let itemlocation = -1;
+
+    function modify(x){
+        itemlocation = x;
+    }
+
     function create(title,description="",duedate="None",priority,doneyet="No"){
         let task = new item(title,description,duedate,priority,doneyet);
-        makeitems.append(task);
+        if (itemlocation == -1){
+            makeitems.append(task);
+        }
+        else{
+            addproj.append(task,itemlocation);
+        }
         makeitems.generate();
     }
 
-    return {create, item};
+    return {create, item,modify};
 })();
 
 const edititem = (()=>{
 
     let edititem = 0;
+    let currentitem = -1;
+
+    function modify(x){
+        currentitem = x;
+    }
 
     function edit(x){
         todoform.open();
+        if (currentitem == -1){
         document.getElementById("title1").value = makeitems.itemlist[x].title;
         document.getElementById("desc1").value = makeitems.itemlist[x].description;
         document.getElementById("date1").value = makeitems.itemlist[x].duedate;
+        
 
         if (makeitems.itemlist[x].priority == "Low priority"){
             document.getElementById("prio1").checked = true;
@@ -33,6 +51,21 @@ const edititem = (()=>{
             document.getElementById("prio2").checked = true;
         } else{
             document.getElementById("prio3").checked = true;
+        }
+        }
+        else{
+            document.getElementById("title1").value = addproj.projlist[currentitem].contents[x].title;
+            document.getElementById("desc1").value = addproj.projlist[currentitem].contents[x].description;
+            document.getElementById("date1").value = addproj.projlist[currentitem].contents[x].duedate;
+            
+    
+            if (addproj.projlist[currentitem].contents[x].priority == "Low priority"){
+                document.getElementById("prio1").checked = true;
+            } else if(addproj.projlist[currentitem].contents[x].priority == "Medium priority"){
+                document.getElementById("prio2").checked = true;
+            } else{
+                document.getElementById("prio3").checked = true;
+            }
         }
 
         todoform.addsubmittype();
@@ -63,13 +96,19 @@ const edititem = (()=>{
             doneyet2 ="Not Done :("
         }
 
-        makeitems.modify(edititem,new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1,doneyet2)); 
+        if (currentitem == -1){
+            console.log("wrong")
+            makeitems.modify(edititem,new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1,doneyet2)); 
+        }
+        else{
+            addproj.modify(edititem,new additem.item(document.getElementById("title1").value,document.getElementById("desc1").value,document.getElementById("date1").value,radio1,doneyet2)); 
+        }
         
 
 
     }
 
-    return {edit, submit1};
+    return {edit, submit1,modify};
 
 })();
 
@@ -93,6 +132,9 @@ const makeitems = (()=>{
 
     function reassign2(){
         itemlistgenerate = itemlist;
+        addproj.sethome();
+        additem.modify(-1);
+        edititem.modify(-1);
         generate();
     }
 
@@ -127,7 +169,12 @@ const makeitems = (()=>{
     }
 
     function delete1(x){
-        itemlist.splice(x,1);
+        if (itemlist == itemlistgenerate){
+            itemlist.splice(x,1);
+        }
+        else{
+            addproj.deleteitem(x);
+        }
         generate();
     }
 
@@ -146,10 +193,20 @@ const makeitems = (()=>{
 const addproj =(()=> {
 
     let projlist=[]
+    let currentitem = -1;
+
+    function sethome (){
+        currentitem = -1;
+    }
 
     function proj1(title){
         this.title = title;
         this.contents = [];
+    }
+
+    function modify(x,y){
+        projlist[currentitem].contents.splice(x,1,y);
+        makeitems.generate();
     }
 
     function generate(){
@@ -177,11 +234,22 @@ const addproj =(()=> {
 
     function makeproj(x){
         makeitems.reassign1(projlist[x].contents);
+        additem.modify(x);
+        currentitem = x;
+        edititem.modify(x);
         makeitems.generate();
 
     }
 
-    return {create};
+    function append(x,y){
+        projlist[y].contents.push(x);
+    }
+
+    function deleteitem(x){
+        projlist[currentitem].contents.splice(x,1);
+    }
+
+    return {create,append,currentitem,deleteitem,sethome,modify,projlist};
 
 })();
 
